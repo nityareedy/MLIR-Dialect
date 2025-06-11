@@ -16,11 +16,11 @@ To design and implement a **custom dialect in MLIR** that:
 
 ## 🏗️ Dialect Features
 
-- 🔹 **Custom `matmul` Op**: Defined using TableGen and built with matrix-specific semantics
-- 🔹 **Tile Size Attribute**: Used to partition matrices into blocks for better cache reuse
-- 🔹 **Loop Fusion Pass**: Combines loops to reduce overhead and improve locality
-- 🔹 **Lowering Pass**: Converts custom ops into Affine dialect → LLVM IR
-- 🔹 **C++ Pass Infrastructure**: Built using MLIR pass manager and `PassRegistration`
+-  **Custom `matmul` Op**: Defined using TableGen and built with matrix-specific semantics
+-  **Tile Size Attribute**: Used to partition matrices into blocks for better cache reuse
+-  **Loop Fusion Pass**: Combines loops to reduce overhead and improve locality
+-  **Lowering Pass**: Converts custom ops into Affine dialect → LLVM IR
+-  **C++ Pass Infrastructure**: Built using MLIR pass manager and `PassRegistration`
 
 ---
 
