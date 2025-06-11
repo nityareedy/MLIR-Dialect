@@ -1,37 +1,45 @@
-# TODO
-- linnea fillOp using assembly format (again)
-- https://docs.oracle.com/cd/E19957-01/806-3566/plug_matrices.html
-- http://blog.ezyang.com/2019/05/pytorch-internals/
-- https://ezyang.github.io/stride-visualizer/index.html
-- https://documentation.suse.com/sle-rt/15-SP2/html/SLE-RT-all/cha-shielding-cpuset.html
+# MLIR Dialect Prototype – Matrix Multiplication Optimization
 
-- API
-numpy.tril() API
-numpy.triu() API
-numpy.diag() API
-numpy.identity() API
+This project is a personal prototype that builds a **custom MLIR dialect** to optimize matrix multiplication using **loop tiling**, **loop fusion**, and **target-aware lowering**. It is based on the LLVM/MLIR infrastructure and simulates performance enhancements for edge-style workloads.
 
-# An out-of-tree dialect template for MLIR
+---
 
-This repository contains a template for an out-of-tree [MLIR](https://mlir.llvm.org/) dialect as well as a
-standalone `opt`-like tool to operate on that dialect.
+## 🧠 Project Goal
 
-## How to build
+To design and implement a **custom dialect in MLIR** that:
+- Defines domain-specific operations like `matmul`
+- Applies **transformation passes** for tiling and loop fusion
+- Lowers to standard dialects (Affine → LLVM) for efficient codegen
+- Demonstrates understanding of compiler IR design, MLIR extensibility, and edge-aware optimization
 
-This setup assumes that you have built LLVM and MLIR in `$BUILD_DIR` and installed them to `$PREFIX`. To build and launch the tests, run
-```sh
-mkdir build && cd build
-cmake -G Ninja .. -DMLIR_DIR=$PREFIX/lib/cmake/mlir -DLLVM_EXTERNAL_LIT=$BUILD_DIR/bin/llvm-lit
-cmake --build . --target check-standalone-opt
-```
-To build the documentation from the TableGen description of the dialect
-operations, run
-```sh
-cmake --build . --target mlir-doc
-```
-**Note**: Make sure to pass `-DLLVM_INSTALL_UTILS=ON` when building LLVM with
-CMake so that it installs `FileCheck` to the chosen installation prefix.
+---
 
-## License
+## 🏗️ Dialect Features
 
-This dialect template is made available under the Apache License 2.0 with LLVM Exceptions. See the `LICENSE.txt` file for more details.
+- 🔹 **Custom `matmul` Op**: Defined using TableGen and built with matrix-specific semantics
+- 🔹 **Tile Size Attribute**: Used to partition matrices into blocks for better cache reuse
+- 🔹 **Loop Fusion Pass**: Combines loops to reduce overhead and improve locality
+- 🔹 **Lowering Pass**: Converts custom ops into Affine dialect → LLVM IR
+- 🔹 **C++ Pass Infrastructure**: Built using MLIR pass manager and `PassRegistration`
+
+---
+
+## ⚙️ Technologies & Tools
+
+- MLIR (Multi-Level Intermediate Representation)
+- LLVM backend
+- TableGen (for dialect definition)
+- C++, CMake, Ninja
+
+---
+
+## 🔍 Repository Structure
+
+```bash
+.
+├── include/mlir/Dialect/MyDialect/     # Custom dialect ops and TableGen definitions
+├── lib/Dialect/MyDialect/              # Dialect registration and C++ implementation
+├── lib/Transforms/                     # Tiling and fusion passes
+├── test/                               # MLIR test files with custom ops and transformation flow
+├── CMakeLists.txt                      # CMake build configuration
+└── README.md                           # Project overview (this file)
