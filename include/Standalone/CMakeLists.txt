@@ -1,0 +1,20 @@
+add_mlir_dialect(LinneaOps linnea)
+add_mlir_doc(LinneaDialect LinneaDialect Standalone/ -gen-dialect-doc)
+add_mlir_doc(LinneaOps LinneaOps Standalone/ -gen-op-doc)
+
+set(LLVM_TARGET_DEFINITIONS LinneaTypeBase.td)
+mlir_tablegen(LinneaTypeBase.h.inc -gen-typedef-decls -typedefs-dialect=linnea)
+mlir_tablegen(LinneaTypeBase.cpp.inc -gen-typedef-defs -typedefs-dialect=linnea)
+add_public_tablegen_target(MLIRLinneaTypeDefIncGen)
+
+set(LLVM_TARGET_DEFINITIONS LinneaAttrBase.td)
+mlir_tablegen(LinneaAttrBase.h.inc -gen-attrdef-decls -typedefs-dialect=linnea)
+mlir_tablegen(LinneaAttrBase.cpp.inc -gen-attrdef-defs -typedefs-dialect=linnea)
+add_public_tablegen_target(MLIRLinneaAttrDefIncGen)
+
+set(LLVM_TARGET_DEFINITIONS LinneaPasses.td)
+mlir_tablegen(LinneaPasses.h.inc -gen-pass-decls -name Linnea)
+mlir_tablegen(Passes.capi.h.inc -gen-pass-capi-header --prefix Linnea)
+mlir_tablegen(Passes.capi.cpp.inc -gen-pass-capi-impl --prefix Linnea)
+add_public_tablegen_target(MLIRLinneaPassIncGen)
+add_mlir_doc(LinneaPasses LinneaPasses ./ -gen-pass-doc)
